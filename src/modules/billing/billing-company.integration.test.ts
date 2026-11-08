@@ -2,7 +2,19 @@ import { randomUUID } from "node:crypto";
 import { sql } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { getDb } from "@intgetion/kit";
+import { setBillingPorts } from "../../ports";
 import { billingForCompany } from "./service";
+
+setBillingPorts({
+  notifyPlatformOwners: async () => {},
+  findMemberRole: async (companyId, memberId) => {
+    const rows = await getDb().execute<{ role: string }>(sql`
+      select role from public.company_members
+      where company_id = ${companyId} and user_id = ${memberId}
+    `);
+    return rows[0]?.role ?? null;
+  },
+});
 
 const userId = randomUUID();
 const otherUserId = randomUUID();

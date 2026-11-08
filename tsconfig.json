@@ -14,5 +14,5 @@
       "drizzle-orm/*": ["./node_modules/drizzle-orm/*"]
     }
   },
-  "include": ["src"]
+  "include": ["src", "scripts"]
 }
