@@ -104,23 +104,21 @@ const db = {
   ),
 };
 
-vi.mock("@intgetion/kit", () => ({ getDb: () => db }));
+vi.mock("@intgetion/kit", async (orig) => ({ ...(await orig<typeof import("@intgetion/kit")>()), getDb: () => db }));
 
 const readChain = vi.fn();
 vi.mock("../../../lib/billing/rpc", () => ({
   readChain: (...args: unknown[]) => readChain(...args),
 }));
 
-const notifyPlatformOwners = vi.fn(async () => {});
-vi.mock("@/modules/admin-console/service", () => ({
-  notifyPlatformOwners: (...args: unknown[]) =>
-    (notifyPlatformOwners as (...a: unknown[]) => Promise<void>)(...args),
-}));
-
-vi.mock("@/modules/companies/service", () => ({ findMemberRole: vi.fn() }));
-
+const notifyPlatformOwners = vi.fn(async (_subject: string, _text: string) => {});
 const { confirmHireOrder, refreshSanctionsList } =
   await import("../service/billing-service");
+const { setBillingPorts } = await import("../../../ports");
+setBillingPorts({
+  notifyPlatformOwners: (subject, text) => notifyPlatformOwners(subject, text),
+  findMemberRole: async () => null,
+});
 
 function topic(address: string) {
   return `0x${address.slice(2).padStart(64, "0")}`;
