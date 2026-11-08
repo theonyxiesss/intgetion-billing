@@ -15,9 +15,9 @@
     "test": "vitest run"
   },
   "peerDependencies": {
-    "@intgetion/kit": "^0.1.0",
-    "react": "^19.2.8",
-    "next-intl": "^4.14.9"
+    "@intgetion/kit": "file:../intgetion-kit",
+    "next-intl": "^4.14.9",
+    "react": "^19.2.8"
   },
   "dependencies": {
     "@walletconnect/ethereum-provider": "^2.26.0",
@@ -26,6 +26,9 @@
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/react": "^19.3.0",
+    "react": "^19.2.8",
     "typescript": "^5",
     "vitest": "^5.0.3"
   }
