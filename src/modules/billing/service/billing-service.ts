@@ -210,12 +210,14 @@ function latestUntil(
   return new Date(Math.max(...times)).toISOString();
 }
 
+type PurchaseRow = {
+  plan_code: string;
+  job_id: string | null;
+  valid_until: string;
+};
+
 export async function billingMe(userId: string): Promise<BillingMe> {
-  const rows = await getDb().execute<{
-    plan_code: string;
-    job_id: string | null;
-    valid_until: string;
-  }>(sql`
+  const rows: PurchaseRow[] = await getDb().execute<PurchaseRow>(sql`
     select p.plan_code, p.job_id, p.valid_until::text
     from purchases p
     where p.status = 'paid'
@@ -250,11 +252,7 @@ export async function billingForCompany(
   companyId: string,
 ): Promise<CompanyBilling> {
   if (!(await billingPorts().findMemberRole(companyId, userId))) throw notFound();
-  const rows = await getDb().execute<{
-    plan_code: string;
-    job_id: string | null;
-    valid_until: string;
-  }>(sql`
+  const rows: PurchaseRow[] = await getDb().execute<PurchaseRow>(sql`
     select p.plan_code, p.job_id, p.valid_until::text
     from purchases p
     where p.company_id = ${companyId}

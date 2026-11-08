@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { PRICING } from "@/config/pricing";
+import { PRICING } from "../../fixtures/pricing";
 import { clientStatus, SALE_PLANS, salePlan, settlement } from "./status";
 
 const now = new Date("2026-10-08T12:00:00Z");

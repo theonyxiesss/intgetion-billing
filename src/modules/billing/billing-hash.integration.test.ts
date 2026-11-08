@@ -1,8 +1,8 @@
 import { randomUUID } from "node:crypto";
 import { sql } from "drizzle-orm";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import { getDb } from "@/db/client";
-import { TRANSFER_TOPIC } from "@/lib/billing/verify-transfer";
+import { getDb } from "@intgetion/kit";
+import { TRANSFER_TOPIC } from "../../lib/billing/verify-transfer";
 
 /**
  * D589 (SEC-20261014-2) against the real indexes of 0086: another order holding
@@ -11,7 +11,7 @@ import { TRANSFER_TOPIC } from "@/lib/billing/verify-transfer";
  */
 
 const readChain = vi.fn();
-vi.mock("@/lib/billing/rpc", () => ({
+vi.mock("../../lib/billing/rpc", () => ({
   readChain: (...args: unknown[]) => readChain(...args),
 }));
 

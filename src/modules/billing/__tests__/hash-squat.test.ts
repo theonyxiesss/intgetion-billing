@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { PgDialect } from "drizzle-orm/pg-core";
 import type { SQL } from "drizzle-orm";
-import { TRANSFER_TOPIC } from "@/lib/billing/verify-transfer";
+import { TRANSFER_TOPIC } from "../../../lib/billing/verify-transfer";
 
 /**
  * D589 (SEC-20261014-2): another order that holds the payer's transaction hash
@@ -126,10 +126,10 @@ const db = {
   ),
 };
 
-vi.mock("@/db/client", () => ({ getDb: () => db }));
+vi.mock("@intgetion/kit", () => ({ getDb: () => db }));
 
 const readChain = vi.fn();
-vi.mock("@/lib/billing/rpc", () => ({
+vi.mock("../../../lib/billing/rpc", () => ({
   readChain: (...args: unknown[]) => readChain(...args),
 }));
 
